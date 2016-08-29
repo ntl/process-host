@@ -12,9 +12,11 @@ gem install --clear-sources \
   --norc \
   --no-document \
   --install-dir ./installed-packages/rubygems \
-  test_bench \
+  actor \
   benchmark-ips \
-  actor
+  pry \
+  pry-doc \
+  test_bench
 
 mkdir -p installed-packages/lib
 mkdir -p installed-packages/lib/benchmark
