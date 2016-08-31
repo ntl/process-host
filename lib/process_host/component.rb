@@ -6,13 +6,16 @@ module ProcessHost
       end
     end
 
+    attr_writer :supervisor
+
     def supervisor
       @supervisor ||= Supervisor.new
     end
 
     module Start
-      def start
+      def start supervisor=nil
         instance = new
+        instance.supervisor = supervisor
         instance.start
         instance
       end

@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby --disable-gems
+
+require_relative '../init'
+require_relative '../demo/demo_init'
+
+ProcessHost.start do |supervisor|
+  puts "Starting demo: pid=#{Process.pid}"
+
+  Signal.trap 'TSTP' do
+    supervisor.pause
+  end
+
+  Signal.trap 'CONT' do
+    supervisor.resume
+  end
+
+  component Demo::Fibonacci::Component
+end
