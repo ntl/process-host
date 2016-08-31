@@ -1,1 +1,2 @@
-require_relative './fibonacci'
+require_relative './fibonacci/actor'
+require_relative './fibonacci/component'
