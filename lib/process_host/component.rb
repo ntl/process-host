@@ -9,7 +9,7 @@ module ProcessHost
     attr_writer :supervisor
 
     def supervisor
-      @supervisor ||= Supervisor.new
+      @supervisor ||= Actor::Supervisor.new
     end
 
     module Start

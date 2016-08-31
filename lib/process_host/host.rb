@@ -11,9 +11,9 @@ module ProcessHost
     def self.build env=nil, supervisor: nil, &block
       env ||= ENV
 
-      supervisor ||= Supervisor.new
+      supervisor ||= Actor::Supervisor.new
 
-      component_names = Environment::ComponentNameList.get env
+      component_names = Component::NameList.get env
 
       instance = new supervisor, component_names
       instance.instance_exec supervisor, &block
