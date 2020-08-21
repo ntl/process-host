@@ -5,6 +5,10 @@ class ProcessHost
         Transferrable.example
       end
 
+      def self.random
+        rand(1_000_000)
+      end
+
       module Transferrable
         def self.example
           string
