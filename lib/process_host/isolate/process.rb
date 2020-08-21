@@ -15,6 +15,8 @@ class ProcessHost
     class Process
       ArgumentError = Class.new(ArgumentError)
 
+      ThreadNotJoined = Object.new
+
       attr_reader :thread
       attr_reader :start_queue
       attr_reader :started
@@ -24,6 +26,8 @@ class ProcessHost
         @thread, @start_queue = thread, start_queue
 
         @started = false
+        @thread_return_value = ThreadNotJoined
+        @thread_error = nil
       end
 
       def self.build(*args, **kwargs, &block)
@@ -80,12 +84,32 @@ class ProcessHost
       end
 
       def next
+        status = self.status
+
+        if status == Status.ready || status == Status.active
+          return status
+        end
+
+        if @thread_return_value.equal?(ThreadNotJoined)
+          begin
+            @thread_return_value = thread.join
+          rescue => thread_error
+            @thread_error = thread_error
+            @thread_return_value = thread_error
+          end
+        end
+
         status
       end
 
       def status
         return Status.ready unless started?
         return Status.active if thread.alive?
+        return Status.failed unless @thread_error.nil?
+      end
+
+      def raise_thread_error
+        raise @thread_error
       end
 
       module Status
@@ -95,6 +119,10 @@ class ProcessHost
 
         def self.active
           :active
+        end
+
+        def self.failed
+          :failed
         end
       end
     end
