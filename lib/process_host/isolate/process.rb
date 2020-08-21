@@ -106,6 +106,8 @@ class ProcessHost
         return Status.ready unless started?
         return Status.active if thread.alive?
         return Status.failed unless @thread_error.nil?
+
+        Status.finished
       end
 
       def raise_thread_error
@@ -123,6 +125,10 @@ class ProcessHost
 
         def self.failed
           :failed
+        end
+
+        def self.finished
+          :finished
         end
       end
     end
