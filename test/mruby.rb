@@ -1,0 +1,1 @@
+puts MRUBY_DESCRIPTION

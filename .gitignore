@@ -1,0 +1,5 @@
+/*.gem
+/gems
+/scratch*
+/src/compiled_features.h
+/run.sh
